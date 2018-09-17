@@ -14,10 +14,14 @@ public class PerfectNumber {
     public static Set<Integer> divisors(int n){
         if (n<1) throw new IllegalArgumentException();
         
-        return IntStream
-                .concat(IntStream.rangeClosed(1, n/2), IntStream.of(n))
+        return IntStream.rangeClosed(1, (int)Math.sqrt(n))
                 .filter((i)->n%i==0)
-                .collect(HashSet::new, HashSet::add, HashSet::addAll);
+                .collect(HashSet::new, 
+                        (set, i)->{
+                            set.add(i);
+                            set.add(n/i);
+                        }, 
+                        HashSet::addAll);
     }
     
     public static STATE process(int n){
